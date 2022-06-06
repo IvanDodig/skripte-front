@@ -1,0 +1,67 @@
+#all-scripts {
+  width: 80vw;
+  background-color: var(--color-grayscale-000);
+  height: 100%;
+  border-radius: 10px;
+  padding: 20px;
+  padding-top: 50px;
+}
+#all-scripts .filters {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+#all-scripts .input {
+  height: 4rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-grayscale-500);
+  font-size: 1.5rem;
+  padding: 1rem;
+  width: 40%;
+}
+#all-scripts .input:focus {
+  border: 1px solid var(--color-grayscale-999);
+}
+
+#all-scripts .dropdown {
+  width: 35%;
+  height: 4rem;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  padding: 1rem;
+  border-color: var(--color-grayscale-500);
+}
+
+#all-scripts .button {
+  width: 15%;
+  border-radius: 10px;
+  border: none;
+  color: var(--color-grayscale-000);
+  background-color: var(--color-grayscale-999);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+#all-scripts .scripts-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px 10px;
+  padding: 50px;
+}
+
+#all-scripts .script {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+}
+
+#all-scripts .script .image {
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  background-color: var(--color-grayscale-500);
+}
+#all-scripts .script .content .title {
+  margin: 0;
+}

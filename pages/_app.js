@@ -1,7 +1,22 @@
-import '../styles/globals.css'
+import Layout from "../Layout/Layout";
+import "rsuite/dist/rsuite.min.css";
+import "../styles/globals.css";
+// Layout
+import "../Layout/Layout.css";
+import "../Layout/navbar/Navbar.css";
+import "../Layout/footer/Footer.css";
+// Pages
+import "../styles/index.css";
+//UI components
+import "../components/UI/Input/Input.css";
+import "../components/UI/Button/Button.css";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  );
 }
 
-export default MyApp
+export default MyApp;
