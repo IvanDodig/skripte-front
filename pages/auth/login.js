@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Button, Form, Schema } from "rsuite";
 import TextField from "../../components/FormElements/TextField";
 import LoadingScreen from "../../components/UI/LoadingScreen/LoadingScreen";
+import { AuthContext } from "../../contexts/AuthContext";
 import { authService } from "../../services/authService";
 
 const LoginPage = () => {
+  const { setLoginUser } = useContext(AuthContext);
   const router = useRouter();
   const formRef = useRef();
   const [formError, setFormError] = useState({});
@@ -18,7 +20,7 @@ const LoginPage = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const [cookie, setCookie] = useCookies(["token"]);
+  const [cookie, setCookie] = useCookies(["token", "loginUser"]);
 
   const { StringType } = Schema.Types;
   const model = Schema.Model({
@@ -50,6 +52,8 @@ const LoginPage = () => {
           setCookie("token", res.data.token, {
             maxAge: 3600, // Expires after 1hr
           });
+          setCookie("loginUser", res.data.user);
+          setLoginUser(res.data.user);
           router.push("/");
         }
       })

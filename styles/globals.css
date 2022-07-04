@@ -22,3 +22,13 @@ a {
 * {
   box-sizing: border-box;
 }
+.rs-form-group .rs-input,
+.rs-form-vertical .rs-form-group .rs-form-control-wrapper,
+.rs-picker-toggle-wrapper,
+.rs-form-group {
+  width: 100%;
+}
+
+.rs-form-group {
+  margin: 0 2rem 0 0;
+}

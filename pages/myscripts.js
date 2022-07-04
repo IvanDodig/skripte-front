@@ -1,13 +1,18 @@
 import { Button, Form, Pagination, SelectPicker } from "rsuite";
 import Link from "next/link";
 import WithAuth from "../components/auth/withAuth";
-import { useEffect, useState } from "react";
-import { scriptServices } from "../services/scriptServices";
+import { useContext, useEffect, useState } from "react";
 import LoadingScreen from "../components/UI/LoadingScreen/LoadingScreen";
 import CreateScriptModal from "../components/pageComponents/Index/CreateScriptModal";
 import { categoryServices } from "../services/categoryServices";
+import { userScriptsServices } from "../services/userScriptsServices";
+import { AuthContext } from "../contexts/AuthContext";
+import ConfirmModal from "../components/UI/ConfirmModal/ConfirmModal";
+import { scriptServices } from "../services/scriptServices";
 
-const Home = () => {
+const MyScripts = () => {
+  const { loginUser } = useContext(AuthContext);
+
   const [list, setList] = useState([]);
   const [listCopy, setListCopy] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -19,20 +24,21 @@ const Home = () => {
     sizePerPage: 6,
   });
 
+  const [deleteScriptId, setDeleteScriptId] = useState(null);
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [update, setUpdate] = useState(false);
   useEffect(() => {
     setIsLoading(true);
     categoryServices.getListOfCategories().then(res => {
       setCategories(res.data.data);
     });
-
-    console.log(pagination);
-    scriptServices.getListOfScripts().then(res => {
-      console.log(res.data.data);
+    userScriptsServices.getListOfScripts(loginUser?.id).then(res => {
       setList(res.data.data);
       setListCopy(res.data.data);
       setIsLoading(false);
     });
-  }, []);
+  }, [update]);
 
   const handleSearch = () => {
     let filteredScripts = listCopy;
@@ -54,6 +60,9 @@ const Home = () => {
 
   return (
     <div id="all-scripts">
+      <h3 style={{ textAlign: "center", marginBottom: "2rem" }}>
+        Moje skripte: {loginUser.name}
+      </h3>
       <Form className="filters" onChange={values => setFormValues(values)}>
         <Form.Group controlId="name">
           <Form.ControlLabel>Naziv skripte</Form.ControlLabel>
@@ -84,12 +93,12 @@ const Home = () => {
         </div>
       ) : (
         <>
-          {/* <button
+          <button
             onClick={() => setShowAddScript(true)}
             className="button"
             style={{ width: "300px", margin: "2rem auto", display: "block" }}>
             Dodaj skriptu
-          </button> */}
+          </button>
           <div className="scripts-list">
             {list
               .slice(
@@ -117,14 +126,18 @@ const Home = () => {
                       </div>
                     </div>
                   </Link>
-                  {/* <div
+                  <div
                     style={{
                       marginLeft: "2rem",
                       color: "red",
                       cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setDeleteScriptId(script.id);
+                      setShowConfirmDelete(true);
                     }}>
                     DELETE
-                  </div> */}
+                  </div>
                 </div>
               ))}
           </div>
@@ -146,15 +159,29 @@ const Home = () => {
           </div>
         </>
       )}
+      <ConfirmModal
+        show={showConfirmDelete}
+        onClose={() => {
+          setDeleteScriptId(null);
+          setShowConfirmDelete(false);
+        }}
+        onConfirm={async () => {
+          await scriptServices.deleteScript(deleteScriptId);
+          setUpdate(!update);
+          setDeleteScriptId(null);
+          setShowConfirmDelete(false);
+        }}
+      />
       <CreateScriptModal
         show={showAddScript}
         categories={categories}
         onClose={() => {
           setShowAddScript(false);
+          setUpdate(!update);
         }}
       />
     </div>
   );
 };
 
-export default WithAuth(Home);
+export default WithAuth(MyScripts);

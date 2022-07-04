@@ -10,12 +10,15 @@ import "../styles/index.css";
 //UI components
 import "../components/UI/Input/Input.css";
 import "../components/UI/Button/Button.css";
+import AuthContextProvider from "../contexts/AuthContext";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <AuthContextProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthContextProvider>
   );
 }
 
