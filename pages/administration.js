@@ -11,7 +11,7 @@ const Administration = () => {
   const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [update, setUpdate] = useState(false);
   useEffect(async () => {
     setCategoriesLoading(true);
@@ -23,10 +23,10 @@ const Administration = () => {
   return (
     <Panel
       bordered
+      id="all-scripts"
       style={{
         background: "white",
-        width: "800px",
-        margin: "2rem",
+        // width: "800px",
         minHeight: "80vh",
         textAlign: "center",
       }}>
@@ -78,11 +78,14 @@ const Administration = () => {
           setShowConfirmDelete(false);
         }}
         onConfirm={async () => {
+          setDeleteLoading(true);
           await categoryServices.deleteCategory(deleteCategoryId);
+          setDeleteLoading(false);
           setUpdate(!update);
           setDeleteCategoryId(null);
           setShowConfirmDelete(false);
         }}
+        loading={deleteLoading}
       />
       <CreateCategoryModal
         show={showNewCategoryModal}

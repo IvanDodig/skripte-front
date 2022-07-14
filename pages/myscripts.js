@@ -23,7 +23,7 @@ const MyScripts = () => {
     currentPage: 1,
     sizePerPage: 6,
   });
-
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteScriptId, setDeleteScriptId] = useState(null);
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -93,10 +93,16 @@ const MyScripts = () => {
         </div>
       ) : (
         <>
+          <hr></hr>
           <button
             onClick={() => setShowAddScript(true)}
             className="button"
-            style={{ width: "300px", margin: "2rem auto", display: "block" }}>
+            style={{
+              width: "200px",
+              margin: "2rem auto 0 auto ",
+              padding: "0.5rem 0",
+              display: "block",
+            }}>
             Dodaj skriptu
           </button>
           <div className="scripts-list">
@@ -161,15 +167,18 @@ const MyScripts = () => {
       )}
       <ConfirmModal
         show={showConfirmDelete}
+        loading={deleteLoading}
         onClose={() => {
           setDeleteScriptId(null);
           setShowConfirmDelete(false);
         }}
         onConfirm={async () => {
+          setDeleteLoading(true);
           await scriptServices.deleteScript(deleteScriptId);
           setUpdate(!update);
           setDeleteScriptId(null);
           setShowConfirmDelete(false);
+          setDeleteLoading(false);
         }}
       />
       <CreateScriptModal

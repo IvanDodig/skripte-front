@@ -13,6 +13,7 @@ const SingleScriptPage = ({ scriptId, script }) => {
   const [reviewsData, setReviewsData] = useState([]);
   const [updateReviews, setUpdateReviews] = useState(false);
   const [addReviewModal, setAddReviewModal] = useState(false);
+  const [downloadLoading, setDownloadLoading] = useState(false);
 
   useEffect(async () => {
     setReviewsLoading(true);
@@ -24,12 +25,12 @@ const SingleScriptPage = ({ scriptId, script }) => {
   }, [updateReviews]);
 
   const downloadScript = async () => {
+    setDownloadLoading(true);
     const res = await filesServices.downloadFile(scriptId);
-    console.log("blob", res);
     const blob = new Blob([res.data], { type: res.headers["content-type"] });
-    console.log(blob);
     const url = window.URL.createObjectURL(blob);
     window.open(url);
+    setDownloadLoading(false);
   };
   return (
     <Panel
@@ -59,13 +60,18 @@ const SingleScriptPage = ({ scriptId, script }) => {
       <div>{script?.category?.name}</div>
       <br></br>
       <br></br>
-      <h6 style={{ cursor: "pointer" }} onClick={downloadScript}>
-        Preuzmi skriptu
-      </h6>
-
-      <div style={{ margin: "4rem 0" }}>
+      <Button onClick={downloadScript} color="green" appearance="primary">
+        {downloadLoading ? <LoadingScreen /> : "Preuzmi skriptu"}
+      </Button>
+      <hr style={{ margin: "2rem 0" }}></hr>
+      <div style={{ margin: "0rem 0" }}>
         <h4> Ocjene</h4>
-        <Button onClick={() => setAddReviewModal(true)}>Ocijeni skriptu</Button>
+        <Button
+          style={{ margin: "1rem 0" }}
+          appearance="primary"
+          onClick={() => setAddReviewModal(true)}>
+          Ocijeni skriptu
+        </Button>
         {reviewsLoading ? (
           <div
             style={{ width: "100%", textAlign: "center", margin: "10rem 0" }}>
