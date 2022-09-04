@@ -4,6 +4,8 @@
   align-items: center;
   padding: 0 60px;
   height: var(--nav-height);
+  background-color: rgb(206, 58, 58);
+  color: rgb(255, 255, 255);
 }
 
 #navbar .left {

@@ -9,6 +9,9 @@ import { userScriptsServices } from "../services/userScriptsServices";
 import { AuthContext } from "../contexts/AuthContext";
 import ConfirmModal from "../components/UI/ConfirmModal/ConfirmModal";
 import { scriptServices } from "../services/scriptServices";
+import TrashIcon from "@rsuite/icons/Trash";
+import EditIcon from "@rsuite/icons/Edit";
+import UpdateScriptModal from "../components/pageComponents/Index/UpdateScriptModal";
 
 const MyScripts = () => {
   const { loginUser } = useContext(AuthContext);
@@ -17,6 +20,7 @@ const MyScripts = () => {
   const [listCopy, setListCopy] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showAddScript, setShowAddScript] = useState(false);
+  const [showUpdateScript, setShowUpdateScript] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPaginatio] = useState({
@@ -28,6 +32,7 @@ const MyScripts = () => {
 
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [update, setUpdate] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     categoryServices.getListOfCategories().then(res => {
@@ -132,18 +137,31 @@ const MyScripts = () => {
                       </div>
                     </div>
                   </Link>
-                  <div
+                  <Button
+                    color="green"
+                    appearance="primary"
                     style={{
                       marginLeft: "2rem",
-                      color: "red",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setShowUpdateScript(script);
+                    }}>
+                    <EditIcon />
+                  </Button>
+                  <Button
+                    color="red"
+                    appearance="primary"
+                    style={{
+                      marginLeft: "1rem",
                       cursor: "pointer",
                     }}
                     onClick={() => {
                       setDeleteScriptId(script.id);
                       setShowConfirmDelete(true);
                     }}>
-                    DELETE
-                  </div>
+                    <TrashIcon />
+                  </Button>
                 </div>
               ))}
           </div>
@@ -189,6 +207,17 @@ const MyScripts = () => {
           setUpdate(!update);
         }}
       />
+      {showUpdateScript && (
+        <UpdateScriptModal
+          show={showUpdateScript}
+          data={showUpdateScript}
+          categories={categories}
+          onClose={() => {
+            setShowUpdateScript(false);
+            setUpdate(!update);
+          }}
+        />
+      )}
     </div>
   );
 };

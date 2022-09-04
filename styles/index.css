@@ -94,3 +94,14 @@
     padding: 30px;
   }
 }
+
+@media only screen and (min-width: 1000px) {
+  .hide-over-1000 {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .hide-under-1000 {
+    display: none !important;
+  }
+}

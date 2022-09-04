@@ -62,7 +62,13 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        color: "white",
+        background: "#00000077",
+        padding: "2rem",
+        borderRadius: "1rem",
+      }}>
       <h3>Prijavite se</h3>
 
       <Form

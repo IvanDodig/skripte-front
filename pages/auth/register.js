@@ -45,38 +45,48 @@ const RegisterPage = () => {
     console.log(formValue, "Form Value");
   };
   return (
-    <Form
-      ref={formRef}
-      onChange={setFormValue}
-      onCheck={setFormError}
-      formValue={formValue}>
-      <h3>Registrirajte se</h3>
-      <TextField label="Ime" name="name" />
-      <TextField label="Email" name="email" />
-      <TextField label="Lozinka" name="password" type="password" />
-      <TextField
-        label="Ponovljena lozinka"
-        name="password_confirmation"
-        type="password"
-      />
-      {apiError && (
-        <>
-          <div style={{ color: "red", marginBottom: "2rem" }}>{formError}</div>
-          <div style={{ color: "red", marginBottom: "2rem" }}>{apiError}</div>
-        </>
-      )}
-      <div>
-        <Link href={"/auth/login"}>
-          <a>Imate profil? Prijavite se!</a>
-        </Link>
-      </div>
-      <Button
-        appearance="primary"
-        onClick={handleSubmit}
-        style={{ width: "8rem" }}>
-        {isLoading ? <LoadingScreen /> : "Prijavi se"}
-      </Button>
-    </Form>
+    <div
+      style={{
+        color: "white",
+        background: "#00000077",
+        padding: "2rem",
+        borderRadius: "1rem",
+      }}>
+      <Form
+        ref={formRef}
+        onChange={setFormValue}
+        onCheck={setFormError}
+        formValue={formValue}>
+        <h3>Registrirajte se</h3>
+        <TextField label="Ime" name="name" />
+        <TextField label="Email" name="email" />
+        <TextField label="Lozinka" name="password" type="password" />
+        <TextField
+          label="Ponovljena lozinka"
+          name="password_confirmation"
+          type="password"
+        />
+        {apiError && (
+          <>
+            <div style={{ color: "red", marginBottom: "2rem" }}>
+              {formError}
+            </div>
+            <div style={{ color: "red", marginBottom: "2rem" }}>{apiError}</div>
+          </>
+        )}
+        <div>
+          <Link href={"/auth/login"}>
+            <a>Imate profil? Prijavite se!</a>
+          </Link>
+        </div>
+        <Button
+          appearance="primary"
+          onClick={handleSubmit}
+          style={{ width: "8rem" }}>
+          {isLoading ? <LoadingScreen /> : "Prijavi se"}
+        </Button>
+      </Form>
+    </div>
   );
 };
 

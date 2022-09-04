@@ -9,4 +9,6 @@ body {
   align-items: center;
   background-color: var(--color-grayscale-100);
   min-height: calc(100vh - var(--nav-height) - var(--footer-height));
+  background-image: url("/library.jpg");
+  background-size: 100%;
 }

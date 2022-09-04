@@ -6,6 +6,7 @@ export const scriptServices = {
   //   searchForScripts,
   createScript,
   deleteScript,
+  updateScript,
   getListOfScripts,
   getScriptById,
 };
@@ -44,6 +45,13 @@ async function createScript({
 async function getScriptById(id) {
   return axios
     .get(`${APP_API_URL}/scripts/${id}`)
+    .then(res => res)
+    .catch(err => err);
+}
+
+async function updateScript(id, data) {
+  return axios
+    .patch(`${APP_API_URL}/scripts/${id}`, data)
     .then(res => res)
     .catch(err => err);
 }

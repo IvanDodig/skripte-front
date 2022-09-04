@@ -5,10 +5,15 @@ import CreateCategoryModal from "../components/pageComponents/Administration/Cre
 import ConfirmModal from "../components/UI/ConfirmModal/ConfirmModal";
 import LoadingScreen from "../components/UI/LoadingScreen/LoadingScreen";
 import { categoryServices } from "../services/categoryServices";
+import TrashIcon from "@rsuite/icons/Trash";
+import EditIcon from "@rsuite/icons/Edit";
+import EditCategoryModal from "../components/pageComponents/Administration/EditCategoryModal";
+
 const Administration = () => {
   const [categories, setCategories] = useState([]);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
+  const [editCategoryData, setEditCategoryData] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -36,7 +41,10 @@ const Administration = () => {
       <br></br>
       <h4>Kategorije</h4>
       <br></br>
-      <Button onClick={() => setShowNewCategoryModal(true)}>
+      <Button
+        style={{ background: "black", fontSize: "1rem" }}
+        appearance="primary"
+        onClick={() => setShowNewCategoryModal(true)}>
         Dodaj novu kategoriju
       </Button>
       <br></br>
@@ -60,13 +68,21 @@ const Administration = () => {
               <br></br>
             </div>
             <Button
+              color="green"
+              appearance="primary"
+              onClick={() => {
+                setEditCategoryData(x);
+              }}>
+              <EditIcon />
+            </Button>
+            <Button
               color="red"
               appearance="primary"
               onClick={() => {
                 setDeleteCategoryId(x.id);
                 setShowConfirmDelete(true);
               }}>
-              Delete
+              <TrashIcon />
             </Button>
           </div>
         ))
@@ -94,6 +110,16 @@ const Administration = () => {
         }}
         setUpdate={setUpdate}
       />
+      {editCategoryData && (
+        <EditCategoryModal
+          show={editCategoryData}
+          onClose={() => {
+            setEditCategoryData(false);
+          }}
+          data={editCategoryData}
+          setUpdate={setUpdate}
+        />
+      )}
     </Panel>
   );
 };

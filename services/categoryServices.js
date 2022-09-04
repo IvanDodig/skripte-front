@@ -5,8 +5,10 @@ export const categoryServices = {
   //   searchForScripts,
   //   createScript,
   //   deleteScript,
+
   getListOfCategories,
   createCategory,
+  editCategory,
   deleteCategory,
 };
 
@@ -20,6 +22,12 @@ async function getListOfCategories() {
 async function createCategory({ name }) {
   return axios
     .post(`${APP_API_URL}/categories`, { name })
+    .then(res => res)
+    .catch(err => err);
+}
+async function editCategory(id, { name }) {
+  return axios
+    .patch(`${APP_API_URL}/categories/${id}`, { name })
     .then(res => res)
     .catch(err => err);
 }
